@@ -3,8 +3,13 @@ import kotlin.apply
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
+    id("org.jetbrains.kotlin.plugin.serialization")
+    id("androidx.room")
+    id("kotlin-parcelize")
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -25,6 +30,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "baseUrl", "\"${baseUrl}\"")
         buildConfigField("String", "apiKey", "\"${apiKey}\"")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments(mapOf(Pair("room.schemaLocation", "$projectDir/schemas")))
+            }
+        }
 
     }
     buildFeatures {
@@ -49,6 +60,15 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs += arrayOf(
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi",
+            "-opt-in=androidx.paging.ExperimentalPagingApi",
+            "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi",
+        )
+    }
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 }
 
@@ -69,4 +89,27 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.hilt.compiler)
+    ksp(libs.hilt.android.compiler)
+
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.androidx.paging.common.ktx)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.runtime.ktx)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }

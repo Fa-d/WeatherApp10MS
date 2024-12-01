@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.nav.WeatherAppNavGraph
+import com.example.weatherapp.ui.components.PermissionBox
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import com.example.weatherapp.utils.LocalMainViewModel
 import com.example.weatherapp.utils.LocalNavController
@@ -35,11 +37,21 @@ class MainActivity : ComponentActivity() {
                 LocalNavController provides navController, LocalMainViewModel provides viewModel
             ) {
                 WeatherAppTheme {
-                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        Box(modifier = Modifier.padding(innerPadding)) {
-                            WeatherAppNavGraph(navController)
+                    PermissionBox(
+                        permissions = listOf(
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        ),
+                        requiredPermissions = listOf(android.Manifest.permission.ACCESS_COARSE_LOCATION),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                WeatherAppNavGraph(navController)
+                            }
                         }
                     }
+
                 }
             }
         }

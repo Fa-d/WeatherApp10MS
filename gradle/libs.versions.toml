@@ -20,6 +20,7 @@ androidxPaging = "3.3.4"
 roomVersion = "2.6.1"
 ksp = "2.0.21-1.0.28"
 accompanistSystemuicontroller = "0.34.0"
+play-services-location = "21.3.0"
 
 
 
@@ -63,6 +64,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVers
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomVersion" }
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistSystemuicontroller" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 
 
 [plugins]

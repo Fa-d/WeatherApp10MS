@@ -113,5 +113,6 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.accompanist.permissions)
+    implementation(libs.play.services.location)
 
 }

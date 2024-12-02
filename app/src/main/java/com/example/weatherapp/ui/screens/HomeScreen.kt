@@ -1,9 +1,6 @@
 package com.example.weatherapp.ui.screens
 
 import android.Manifest
-import android.content.Context
-import android.location.LocationManager
-import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +16,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 @RequiresPermission(
     anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION],
 )
@@ -32,12 +30,7 @@ fun HomeScreen() {
     val scope = rememberCoroutineScope()
     val cancellationTokenSource = remember { CancellationTokenSource() }
 
-
     LaunchedEffect(null) {
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(context, "Please enable GPS", Toast.LENGTH_SHORT).show()
-        }
         scope.launch(Dispatchers.IO) {
             locationClient.getCurrentLocation(
                 Priority.PRIORITY_BALANCED_POWER_ACCURACY,

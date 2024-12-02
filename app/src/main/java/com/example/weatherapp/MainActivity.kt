@@ -66,6 +66,7 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
+        setLocationDataToVM()
         val filter = IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION)
         filter.addAction(Intent.ACTION_PROVIDER_CHANGED)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -83,13 +84,16 @@ class MainActivity : ComponentActivity() {
     private val locationStatusReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == LocationManager.PROVIDERS_CHANGED_ACTION) {
-                val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
-                val isLocationEnabled = isLocationEnabled(locationManager)
-                Log.e("isLocationEnabled", isLocationEnabled.toString())
-                lifecycleScope.launch {
-                    viewModel.isLocationServiceOn.emit(isLocationEnabled)
-                }
+                setLocationDataToVM()
             }
+        }
+    }
+
+    fun setLocationDataToVM(){
+        val locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
+        val isLocationEnabled = isLocationEnabled(locationManager)
+        lifecycleScope.launch {
+            viewModel.isLocationServiceOn.emit(isLocationEnabled)
         }
     }
 }

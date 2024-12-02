@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.core.MainRepository
+import com.example.weatherapp.models.CurrentWeatherRes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,12 +18,12 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val isLocationServiceOn = MutableStateFlow(false)
-
+    val currentWeather = MutableStateFlow(CurrentWeatherRes())
     fun getCurrentWeather(lat: Double, lon: Double) {
         viewModelScope.launch {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    mainRepository.getCurrentWeather(lat, lon)
+                    currentWeather.emit(mainRepository.getCurrentWeather(lat, lon))
                 } catch (_: Exception) {
 
                 }

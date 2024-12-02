@@ -2,13 +2,13 @@ package com.example.weatherapp.ui.screens
 
 import android.Manifest
 import androidx.annotation.RequiresPermission
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import com.example.weatherapp.ui.components.HomeComponent
 import com.example.weatherapp.utils.LocalMainViewModel
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -49,5 +49,5 @@ fun HomeScreen() {
         }
     }
 
-    Text("HomeScreen")
+    HomeComponent()
 }
